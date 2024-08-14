@@ -1,7 +1,10 @@
+import UsernameForm from '@/components/UsernameForm';
+
 export default function Home() {
   return (
-    <main>
-      <h1>InfiniteStats</h1>
+    <main className="container mx-auto p-4">
+      <h1 className="text-2xl font-bold mb-4">Infinite Flight User Stats</h1>
+      <UsernameForm />
     </main>
   );
 }
