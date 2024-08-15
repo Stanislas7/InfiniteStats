@@ -4,6 +4,8 @@ import { redirect } from 'next/navigation';
 import DarkModeToggle from '@/components/DarkModeToggle';
 import UsernameForm from '@/components/UsernameForm';
 import Logo from '@/components/Logo';
+import ShareStats from '@/components/ShareStats';
+import Notification from '@/components/Notification';
 import { FaGraduationCap, FaHeadset, FaBuilding, FaPlane, FaLandmark, FaClock, FaExclamationTriangle, FaStar } from 'react-icons/fa';
 
 export default async function StatsPage({
@@ -33,22 +35,32 @@ export default async function StatsPage({
     };
 
     return (
-      <div className="flex flex-col items-center justify-center min-h-screen p-4 bg-gray-100 dark:bg-gray-900 transition-colors duration-300">
-        <div className="absolute top-4 left-4 z-10 flex items-center h-12">
-          <Logo />
-        </div>
-        <div className="absolute top-4 right-4 z-10 flex items-center h-12">
+      <div className="flex flex-col items-center min-h-screen bg-gray-100 dark:bg-gray-900 transition-colors duration-300">
+        <div className="w-full flex justify-between items-center p-4">
+          <div className="flex items-center h-12">
+            <Logo />
+          </div>
           <DarkModeToggle />
         </div>
-        <div className="w-full max-w-4xl p-4 sm:p-8 space-y-8 bg-white dark:bg-gray-800 rounded-xl shadow-md mt-20 sm:mt-12">
-          <div className="mb-8 sm:mb-12">
+        <div className="w-full max-w-4xl p-4 sm:p-8 space-y-8 mt-1 sm:mt-1">
+          <div className="mb-2 sm:mb-2">
             <UsernameForm />
           </div>
 
           <div className="bg-gray-200 dark:bg-gray-800 rounded-xl shadow-md p-4 sm:p-6">
-            <h1 className="text-xl sm:text-2xl font-semibold text-center text-gray-800 dark:text-gray-200 mb-6">
-              Stats for <span className="underline decoration-blue-500">{stats.discourseUsername}</span>
-            </h1>
+            <div className="mb-6 relative">
+              <div className="flex justify-center items-center w-full">
+                <h1 className="text-xl sm:text-2xl font-semibold text-gray-800 dark:text-gray-200 text-center">
+                  Stats for <span className="underline decoration-blue-500">{stats.discourseUsername}</span>
+                </h1>
+              </div>
+              <div className="absolute right-0 top-1/2 transform -translate-y-1/2 hidden sm:block">
+                <ShareStats username={stats.discourseUsername} />
+              </div>
+              <div className="mt-4 flex justify-center sm:hidden">
+                <ShareStats username={stats.discourseUsername} />
+              </div>
+            </div>
             <div className="bg-white dark:bg-gray-700 rounded-lg p-4 mb-6">
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <MainStatItem icon={<FaGraduationCap />} label="Grade" value={stats.grade} />
@@ -80,9 +92,10 @@ export default async function StatsPage({
             </div>
           </div>
         </div>
-        <footer className="mt-8 mb-4 text-center text-sm text-gray-500 dark:text-gray-400">
+        <footer className="mt-1 text-center text-sm text-gray-500 dark:text-gray-400">
           Developed by <a href="https://community.infiniteflight.com/u/stan7/summary" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">Stan7</a>
         </footer>
+        <Notification />
       </div>
     );
   } catch (error) {
