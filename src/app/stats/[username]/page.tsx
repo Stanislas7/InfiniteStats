@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import DarkModeToggle from '@/components/DarkModeToggle';
 import UsernameForm from '@/components/UsernameForm';
+import Logo from '@/components/Logo';
 import { FaGraduationCap, FaHeadset, FaBuilding, FaPlane, FaLandmark, FaClock, FaExclamationTriangle, FaStar } from 'react-icons/fa';
 
 export default async function StatsPage({
@@ -33,7 +34,10 @@ export default async function StatsPage({
 
     return (
       <div className="flex flex-col items-center min-h-screen bg-gray-100 dark:bg-gray-900 transition-colors duration-300">
-        <div className="fixed top-4 right-4 z-10">
+        <div className="absolute top-4 left-4 z-10 flex items-center h-12">
+          <Logo />
+        </div>
+        <div className="absolute top-4 right-4 z-10">
           <DarkModeToggle />
         </div>
         <div className="w-full max-w-4xl p-4 sm:p-8 space-y-8 mt-16 sm:mt-8">

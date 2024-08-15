@@ -1,3 +1,4 @@
+import Logo from '@/components/Logo';
 import UsernameForm from '@/components/UsernameForm';
 import DarkModeToggle from '@/components/DarkModeToggle';
 import { FaPlane, FaChartBar, FaUsers } from 'react-icons/fa';
@@ -5,10 +6,13 @@ import { FaPlane, FaChartBar, FaUsers } from 'react-icons/fa';
 export default function Home() {
   return (
     <main className="flex flex-col items-center justify-center min-h-screen p-4 bg-gray-100 dark:bg-gray-900 transition-colors duration-300">
-      <div className="fixed top-4 right-4 z-10">
+      <div className="absolute top-4 left-4 z-10 flex items-center h-12">
+        <Logo />
+      </div>
+      <div className="absolute top-4 right-4 z-10 flex items-center h-12">
         <DarkModeToggle />
       </div>
-      <div className="w-full max-w-4xl p-4 sm:p-8 space-y-8 bg-white dark:bg-gray-800 rounded-xl shadow-md mt-12 sm:mt-0">
+      <div className="w-full max-w-4xl p-4 sm:p-8 space-y-8 bg-white dark:bg-gray-800 rounded-xl shadow-md mt-20 sm:mt-12">
         <div className="text-center">
           <div className="flex justify-center items-center mb-4">
             <FaPlane className="text-3xl sm:text-4xl text-blue-500 mr-2 sm:mr-3" />
