@@ -1,15 +1,69 @@
 import { fetchUserStats } from '@/lib/api';
 import Link from 'next/link';
 import DarkModeToggle from '@/components/DarkModeToggle';
+import UsernameForm from '@/components/UsernameForm';
+import { FaGraduationCap, FaHeadset, FaBuilding, FaPlane, FaLandmark, FaClock, FaExclamationTriangle, FaStar } from 'react-icons/fa';
 
 export default async function StatsPage({
   params,
 }: {
   params: { username: string };
 }) {
-  const stats = await fetchUserStats(params.username);
+  try {
+    const stats = await fetchUserStats(params.username);
 
-  if (!stats) {
+    const rankDict: { [key: number]: string } = {
+      0: 'Observer', 1: 'Trainee', 2: 'Apprentice', 3: 'Specialist',
+      4: 'Officer', 5: 'Supervisor', 6: 'Recruiter', 7: 'Recruiter', 8: 'Jedi'
+    };
+
+    return (
+      <div className="flex flex-col items-center min-h-screen bg-gray-100 dark:bg-gray-900 transition-colors duration-300">
+        <div className="absolute top-4 right-4">
+          <DarkModeToggle />
+        </div>
+        <div className="w-full max-w-4xl p-8 space-y-8">
+          <div className="mt-8 mb-12">
+            <UsernameForm />
+          </div>
+          
+          <div className="bg-gray-200 dark:bg-gray-800 rounded-xl shadow-md p-6">
+            <h1 className="text-2xl font-semibold text-center text-gray-800 dark:text-gray-200 mb-6">
+              Stats for <span className="underline decoration-blue-500">{stats.discourseUsername}</span>
+            </h1>
+            <div className="bg-white dark:bg-gray-700 rounded-lg p-4 mb-6">
+              <div className="grid grid-cols-3 gap-4">
+                <MainStatItem icon={<FaGraduationCap />} label="Grade" value={stats.grade} />
+                <MainStatItem icon={<FaHeadset />} label="ATC Rank" value={rankDict[stats.atcRank ?? 0]} />
+                <MainStatItem icon={<FaBuilding />} label="Virtual Organization" value={stats.virtualOrganization || 'None'} />
+              </div>
+            </div>
+            
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+              <StatItem icon={<FaPlane />} label="Online Flights" value={stats.onlineFlights.toLocaleString()} />
+              <StatItem icon={<FaLandmark />} label="Landing Count" value={stats.landingCount.toLocaleString()} />
+              <StatItem icon={<FaClock />} label="Flight Time" value={`${Math.floor(stats.flightTime / 60).toLocaleString()} hours`} />
+              <StatItem icon={<FaExclamationTriangle />} label="Violations" value={stats.violations.toLocaleString()} />
+              <StatItem icon={<FaHeadset />} label="ATC Operations" value={stats.atcOperations.toLocaleString()} />
+              <StatItem icon={<FaStar />} label="Experience" value={`${stats.xp.toLocaleString()} XP`} />
+            </div>
+
+            <div className="mt-6 bg-white dark:bg-gray-700 rounded-lg p-4">
+              <h2 className="text-lg font-semibold text-center text-gray-800 dark:text-gray-200 mb-4">ATC Violations by Level</h2>
+              <div className="grid grid-cols-3 gap-4">
+                <MainStatItem icon={<FaExclamationTriangle />} label="Level 1" value={stats.violationCountByLevel.level1.toLocaleString()} />
+                <MainStatItem icon={<FaExclamationTriangle />} label="Level 2" value={stats.violationCountByLevel.level2.toLocaleString()} />
+                <MainStatItem icon={<FaExclamationTriangle />} label="Level 3" value={stats.violationCountByLevel.level3.toLocaleString()} />
+              </div>
+            </div>
+          </div>
+        </div>
+        <footer className="mt-8 mb-4 text-center text-gray-500 dark:text-gray-400">
+          Developed by <a href="https://community.infiniteflight.com/u/stan7/summary" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">Stan7</a>
+        </footer>
+      </div>
+    );
+  } catch (error) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900">
         <div className="text-center">
@@ -21,39 +75,28 @@ export default async function StatsPage({
       </div>
     );
   }
+}
 
+function MainStatItem({ icon, label, value }: { icon: React.ReactNode, label: string; value: string | number }) {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900 transition-colors duration-300">
-      <div className="absolute top-4 right-4">
-        <DarkModeToggle />
-      </div>
-      <div className="w-full max-w-2xl p-8 space-y-8 bg-white dark:bg-gray-800 rounded-xl shadow-md">
-        <h1 className="text-2xl font-semibold text-center text-gray-800 dark:text-gray-200 mb-6">
-          Stats for {params.username}
-        </h1>
-        <div className="grid grid-cols-2 gap-4">
-          <StatItem label="XP" value={stats.xp} />
-          <StatItem label="Online Flights" value={stats.onlineFlights} />
-          <StatItem label="Landing Count" value={stats.landingCount} />
-          <StatItem label="Flight Time" value={`${Math.floor(stats.flightTime / 60)} hours`} />
-          <StatItem label="Violations" value={stats.violations} />
-          <StatItem label="Grade" value={stats.grade} />
-        </div>
-        <div className="text-center mt-8">
-          <Link href="/" className="text-blue-500 hover:underline">
-            Search another user
-          </Link>
-        </div>
+    <div className="text-center">
+      <h2 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">{label}</h2>
+      <div className="flex items-center justify-center">
+        <span className="text-2xl mr-2 text-blue-500">{icon}</span>
+        <p className="text-xl font-semibold text-gray-900 dark:text-gray-100">{value}</p>
       </div>
     </div>
   );
 }
 
-function StatItem({ label, value }: { label: string; value: string | number }) {
+function StatItem({ icon, label, value }: { icon: React.ReactNode, label: string; value: string | number | React.ReactNode }) {
   return (
-    <div className="bg-gray-100 dark:bg-gray-700 p-4 rounded-lg">
-      <h2 className="text-sm font-medium text-gray-500 dark:text-gray-400">{label}</h2>
-      <p className="mt-1 text-xl font-semibold text-gray-900 dark:text-gray-100">{value}</p>
+    <div className="bg-gray-100 dark:bg-gray-600 p-4 rounded-lg">
+      <h2 className="text-sm font-medium text-gray-500 dark:text-gray-300 mb-1">{label}</h2>
+      <div className="flex items-center">
+        <span className="text-2xl mr-2 text-blue-500">{icon}</span>
+        <div className="text-xl font-semibold text-gray-900 dark:text-gray-100">{value}</div>
+      </div>
     </div>
   );
 }
