@@ -24,6 +24,13 @@ export default async function StatsPage({
       4: 'Officer', 5: 'Supervisor', 6: 'Recruiter', 7: 'Recruiter', 8: 'Jedi'
     };
 
+    // Function to extract content within square brackets - Air France KLM [AFKLM] would only be AFKLM
+    const extractBracketContent = (str: string | null): string => {
+      if (!str) return 'None';
+      const match = str.match(/\[(.*?)\]/);
+      return match ? match[1] : str;
+    };
+
     return (
       <div className="flex flex-col items-center min-h-screen bg-gray-100 dark:bg-gray-900 transition-colors duration-300">
         <div className="fixed top-4 right-4 z-10">
@@ -33,7 +40,7 @@ export default async function StatsPage({
           <div className="mb-8 sm:mb-12">
             <UsernameForm />
           </div>
-          
+
           <div className="bg-gray-200 dark:bg-gray-800 rounded-xl shadow-md p-4 sm:p-6">
             <h1 className="text-xl sm:text-2xl font-semibold text-center text-gray-800 dark:text-gray-200 mb-6">
               Stats for <span className="underline decoration-blue-500">{stats.discourseUsername}</span>
@@ -42,10 +49,14 @@ export default async function StatsPage({
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <MainStatItem icon={<FaGraduationCap />} label="Grade" value={stats.grade} />
                 <MainStatItem icon={<FaHeadset />} label="ATC Rank" value={rankDict[stats.atcRank ?? 0]} />
-                <MainStatItem icon={<FaBuilding />} label="Virtual Organization" value={stats.virtualOrganization || 'None'} />
+                <MainStatItem
+                  icon={<FaBuilding />}
+                  label="Virtual Organization"
+                  value={extractBracketContent(stats.virtualOrganization)}
+                />
               </div>
             </div>
-            
+
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
               <StatItem icon={<FaPlane />} label="Online Flights" value={stats.onlineFlights.toLocaleString()} />
               <StatItem icon={<FaLandmark />} label="Landing Count" value={stats.landingCount.toLocaleString()} />
