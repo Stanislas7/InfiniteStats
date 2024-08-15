@@ -33,14 +33,14 @@ export default async function StatsPage({
     };
 
     return (
-      <div className="flex flex-col items-center min-h-screen bg-gray-100 dark:bg-gray-900 transition-colors duration-300">
+      <div className="flex flex-col items-center justify-center min-h-screen p-4 bg-gray-100 dark:bg-gray-900 transition-colors duration-300">
         <div className="absolute top-4 left-4 z-10 flex items-center h-12">
           <Logo />
         </div>
-        <div className="absolute top-4 right-4 z-10">
+        <div className="absolute top-4 right-4 z-10 flex items-center h-12">
           <DarkModeToggle />
         </div>
-        <div className="w-full max-w-4xl p-4 sm:p-8 space-y-8 mt-16 sm:mt-8">
+        <div className="w-full max-w-4xl p-4 sm:p-8 space-y-8 bg-white dark:bg-gray-800 rounded-xl shadow-md mt-20 sm:mt-12">
           <div className="mb-8 sm:mb-12">
             <UsernameForm />
           </div>
