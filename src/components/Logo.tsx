@@ -16,8 +16,6 @@ export default function Logo() {
     return null;
   }
 
-  // We wait to render the logo until the theme is resolved so it's always the good one
-
   const currentTheme = theme === 'system' ? resolvedTheme : theme;
 
   return (

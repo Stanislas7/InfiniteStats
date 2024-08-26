@@ -27,7 +27,6 @@ export default async function StatsPage({
       4: 'Officer', 5: 'Supervisor', 6: 'Recruiter', 7: 'Recruiter', 8: 'Jedi'
     };
 
-    // Function to extract content within square brackets - Air France KLM [AFKLM] would only be AFKLM
     const extractBracketContent = (str: string | null): string => {
       if (!str) return 'None';
       const match = str.match(/\[(.*?)\]/);
@@ -63,10 +62,10 @@ export default async function StatsPage({
             </div>
             <div className="bg-white dark:bg-gray-700 rounded-lg p-4 mb-6">
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                <MainStatItem icon={<FaGraduationCap />} label="Grade" value={stats.grade} />
-                <MainStatItem icon={<FaHeadset />} label="ATC Rank" value={rankDict[stats.atcRank ?? 0]} />
+                <MainStatItem icon={<FaGraduationCap className="text-blue-500" />} label="Grade" value={stats.grade} />
+                <MainStatItem icon={<FaHeadset className="text-green-500" />} label="ATC Rank" value={rankDict[stats.atcRank ?? 0]} />
                 <MainStatItem
-                  icon={<FaBuilding />}
+                  icon={<FaBuilding className="text-gray-500" />}
                   label="Virtual Organization"
                   value={extractBracketContent(stats.virtualOrganization)}
                 />
@@ -74,25 +73,25 @@ export default async function StatsPage({
             </div>
 
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-              <StatItem icon={<FaPlane />} label="Online Flights" value={stats.onlineFlights.toLocaleString()} />
-              <StatItem icon={<FaLandmark />} label="Landing Count" value={stats.landingCount.toLocaleString()} />
-              <StatItem icon={<FaClock />} label="Flight Time" value={`${Math.floor(stats.flightTime / 60).toLocaleString()} hours`} />
-              <StatItem icon={<FaExclamationTriangle />} label="Violations" value={stats.violations.toLocaleString()} />
-              <StatItem icon={<FaHeadset />} label="ATC Operations" value={stats.atcOperations.toLocaleString()} />
-              <StatItem icon={<FaStar />} label="Experience" value={`${stats.xp.toLocaleString()} XP`} />
+              <StatItem icon={<FaPlane className="text-blue-500" />} label="Online Flights" value={stats.onlineFlights.toLocaleString()} />
+              <StatItem icon={<FaLandmark className="text-blue-500" />} label="Landing Count" value={stats.landingCount.toLocaleString()} />
+              <StatItem icon={<FaClock className="text-blue-500" />} label="Flight Time" value={`${Math.floor(stats.flightTime / 60).toLocaleString()} hours`} />
+              <StatItem icon={<FaExclamationTriangle className="text-yellow-500" />} label="Violations" value={stats.violations.toLocaleString()} />
+              <StatItem icon={<FaHeadset className="text-[#6bae49]" />} label="ATC Operations" value={stats.atcOperations.toLocaleString()} />
+              <StatItem icon={<FaStar className="text-yellow-400" />} label="Experience" value={`${stats.xp.toLocaleString()} XP`} />
             </div>
 
             <div className="mt-6 bg-white dark:bg-gray-700 rounded-lg p-4">
               <h2 className="text-base sm:text-lg font-semibold text-center text-gray-800 dark:text-gray-200 mb-4">ATC Violations by Level</h2>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                <MainStatItem icon={<FaExclamationTriangle />} label="Level 1" value={stats.violationCountByLevel.level1.toLocaleString()} />
-                <MainStatItem icon={<FaExclamationTriangle />} label="Level 2" value={stats.violationCountByLevel.level2.toLocaleString()} />
-                <MainStatItem icon={<FaExclamationTriangle />} label="Level 3" value={stats.violationCountByLevel.level3.toLocaleString()} />
+                <MainStatItem icon={<FaExclamationTriangle className="text-yellow-500" />} label="Level 1" value={stats.violationCountByLevel.level1.toLocaleString()} />
+                <MainStatItem icon={<FaExclamationTriangle className="text-orange-500" />} label="Level 2" value={stats.violationCountByLevel.level2.toLocaleString()} />
+                <MainStatItem icon={<FaExclamationTriangle className="text-red-500" />} label="Level 3" value={stats.violationCountByLevel.level3.toLocaleString()} />
               </div>
             </div>
           </div>
         </div>
-        <footer className="mt-1 text-center text-sm text-gray-500 dark:text-gray-400">
+        <footer className="mt-1 mb-5 text-center text-sm text-gray-500 dark:text-gray-400">
           Developed by <a href="https://community.infiniteflight.com/u/stan7/summary" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">Stan7</a>
         </footer>
         <Notification />
@@ -117,7 +116,7 @@ function MainStatItem({ icon, label, value }: { icon: React.ReactNode, label: st
     <div className="text-center">
       <h2 className="text-xs sm:text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">{label}</h2>
       <div className="flex items-center justify-center">
-        <span className="text-xl sm:text-2xl mr-2 text-blue-500">{icon}</span>
+        <span className="text-xl sm:text-2xl mr-2">{icon}</span>
         <p className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-gray-100">{value}</p>
       </div>
     </div>
@@ -129,7 +128,7 @@ function StatItem({ icon, label, value }: { icon: React.ReactNode, label: string
     <div className="bg-gray-100 dark:bg-gray-600 p-3 sm:p-4 rounded-lg">
       <h2 className="text-xs sm:text-sm font-medium text-gray-500 dark:text-gray-300 mb-1">{label}</h2>
       <div className="flex items-center">
-        <span className="text-lg sm:text-2xl mr-2 text-blue-500">{icon}</span>
+        <span className="text-lg sm:text-2xl mr-2">{icon}</span>
         <div className="text-sm sm:text-xl font-semibold text-gray-900 dark:text-gray-100">{value}</div>
       </div>
     </div>
